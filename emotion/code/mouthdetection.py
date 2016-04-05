@@ -12,18 +12,29 @@ def findmouth(img):
   haarMouth = cv2.CascadeClassifier('haarcascade_mouth.xml')
   # running the classifiers
   #storage = cv2.CreateMemStorage()
-  storage = 0
-  detectedFace = cv2.HaarDetectObjects(img, haarFace, storage)
-  detectedMouth = cv2.HaarDetectObjects(img, haarMouth, storage)
+  #storage = 0
+  #detectedFace = cv2.HaarDetectObjects(img, haarFace, storage)
+  #detectedMouth = cv2.HaarDetectObjects(img, haarMouth, storage)
 
+  detectedFace = haarFace.detectMultiScale(
+                 img,
+                 scaleFactor=1.2, #increase if wrong faces are detected
+                 minNeighbors=5,
+                 minSize=(30, 30),
+                )
+  detectedMouth = haarMouth.detectMultiScale(
+                  img, 
+                  scaleFactor=1.2, #increase if wrong faces are detected
+                  minNeighbors=5,
+                  minSize=(30, 30),
+                )
   # FACE: find the largest detected face as detected face
   maxFaceSize = 0
   maxFace = 0
-  if detectedFace:
-   for face in detectedFace: # face: [0][0]: x; [0][1]: y; [0][2]: width; [0][3]: height 
-    if face[0][3]* face[0][2] > maxFaceSize:
-      maxFaceSize = face[0][3]* face[0][2]
-      maxFace = face
+  for face in detectedFace: # face: [0][0]: x; [0][1]: y; [0][2]: width; [0][3]: height 
+   if face[0][3]* face[0][2] > maxFaceSize:
+     maxFaceSize = face[0][3]* face[0][2]
+     maxFace = face
   
   if maxFace == 0: # did not detect face
     return 2
