@@ -32,7 +32,7 @@ class Logistic(object):
             
             # gradient of error function: grad_E = sum{(y - t) * phi}
             grad_E = [0 for i in range(dim)]
-            for n in xrange(N):
+            for n in range(N):
                 y_n = self.evaluate(phi[n]) # predicted probability
                 grad_E += (y_n - labels[n]) * phi[n] 
 

@@ -48,13 +48,13 @@ if __name__ == '__main__':
     """
     # create a list for filenames of smiles pictures
     smilefiles = []
-    with open('smiles.csv', 'rt') as csvfile:
-        for rec in csv.reader(csvfile, delimiter=' '):
+    with open('smiles.csv', 'r') as csvfile:
+        for rec in csv.reader(csvfile, delimiter='	'):
             smilefiles += rec
 
     # create a list for filenames of neutral pictures
     neutralfiles = []
-    with open('neutral.csv', 'rb') as csvfile:
+    with open('neutral.csv', 'r') as csvfile:
         for rec in csv.reader(csvfile, delimiter='	'):
             neutralfiles += rec
 
@@ -103,13 +103,13 @@ if __name__ == '__main__':
         if key == 27: # exit on ESC
             break
         if key == 32: # press space to save images
-            cv.SaveImage("webcam.jpg", cv.fromarray(frame))
-            img = cv.LoadImage("webcam.jpg") # input image
+            cv2.SaveImage("webcam.jpg", cv2.fromarray(frame))
+            img = cv2.LoadImage("webcam.jpg") # input image
             mouth = m.findmouth(img)
             # show(mouth)
             if mouth != 2: # did not return error
                 mouthimg = crop(mouth)
-                cv.SaveImage("webcam-m.jpg", mouthimg)
+                cv2.SaveImage("webcam-m.jpg", mouthimg)
                 # predict the captured emotion
                 result = lr.predict(vectorize('webcam-m.jpg'))
                 if result == 1:
