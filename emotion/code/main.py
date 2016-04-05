@@ -103,8 +103,8 @@ if __name__ == '__main__':
         if key == 27: # exit on ESC
             break
         if key == 32: # press space to save images
-            cv2.SaveImage("webcam.jpg", cv2.fromarray(frame))
-            img = cv2.LoadImage("webcam.jpg") # input image
+            cv2.imwrite("webcam.jpg", frame)
+            img = cv2.imread("webcam.jpg") # input image
             mouth = m.findmouth(img)
             # show(mouth)
             if mouth != 2: # did not return error

@@ -8,12 +8,13 @@ import cv2
 def findmouth(img):
 
   # INITIALIZE: loading the classifiers
-  haarFace = cv.Load('haarcascade_frontalface_default.xml')
-  haarMouth = cv.Load('haarcascade_mouth.xml')
+  haarFace = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+  haarMouth = cv2.CascadeClassifier('haarcascade_mouth.xml')
   # running the classifiers
-  storage = cv.CreateMemStorage()
-  detectedFace = cv.HaarDetectObjects(img, haarFace, storage)
-  detectedMouth = cv.HaarDetectObjects(img, haarMouth, storage)
+  #storage = cv2.CreateMemStorage()
+  storage = 0
+  detectedFace = cv2.HaarDetectObjects(img, haarFace, storage)
+  detectedMouth = cv2.HaarDetectObjects(img, haarMouth, storage)
 
   # FACE: find the largest detected face as detected face
   maxFaceSize = 0
