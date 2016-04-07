@@ -30,23 +30,26 @@ def findmouth(img):
                 )
   # FACE: find the largest detected face as detected face
   maxFaceSize = 0
-  maxFace = 0
-  for face in detectedFace: # face: [0][0]: x; [0][1]: y; [0][2]: width; [0][3]: height 
-   if face[0][3]* face[0][2] > maxFaceSize:
-     maxFaceSize = face[0][3]* face[0][2]
-     maxFace = face
-  
-  if maxFace == 0: # did not detect face
+  maxFaceIdx = 0
+  index = 0
+  for (x, y, w, h) in detectedFace:    #detect the largest face
+    if w*h > maxFaceSize:
+      maxFaceSize = w*h
+      maxFaceIdx = index
+    index = index+1
+  maxFace = detectedFace[maxFaceIdx]
+
+  if len(maxFace): # did not detect face
     return 2
 
   def mouth_in_lower_face(mouth,face):
     # if the mouth is in the lower 2/5 of the face 
     # and the lower edge of mouth is above that of the face
     # and the horizontal center of the mouth is the center of the face
-    if (mouth[0][1] > face[0][1] + face[0][3] * 3 / float(5) 
-      and mouth[0][1] + mouth[0][3] < face[0][1] + face[0][3]
-      and abs((mouth[0][0] + mouth[0][2] / float(2)) 
-        - (face[0][0] + face[0][2] / float(2))) < face[0][2] / float(10)):
+    if (mouth[1] > face[1] + face[3] * 3 / float(5) 
+      and mouth[1] + mouth[3] < face[1] + face[3]
+      and abs((mouth[0] + mouth[2] / float(2)) 
+        - (face[0] + face[2] / float(2))) < face[2] / float(10)):
       return True
     else:
       return False
@@ -60,10 +63,10 @@ def findmouth(img):
   
   maxMouthSize = 0
   for mouth in filteredMouth:
-    if mouth[0][3]* mouth[0][2] > maxMouthSize:
-      maxMouthSize = mouth[0][3]* mouth[0][2]
+    if mouth[3]* mouth[2] > maxMouthSize:
+      maxMouthSize = mouth[3]* mouth[2]
       maxMouth = mouth
-      
+  print(len(maxMouth))
   try:
     return maxMouth
   except UnboundLocalError:
