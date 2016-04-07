@@ -1,0 +1,1 @@
+set PATH=%PATH%;C:\Users\danu\AppData\Local\Programs\Python\Python35-32\;C:\Users\danu\AppData\Local\Programs\Python\Python35-32\Scripts\
