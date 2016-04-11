@@ -22,12 +22,7 @@ def findmouth(img):
                  minNeighbors=5,
                  minSize=(30, 30),
                 )
-  detectedMouth = haarMouth.detectMultiScale(
-                  img, 
-                  scaleFactor=1.2, #increase if wrong faces are detected
-                  minNeighbors=5,
-                  minSize=(30, 30),
-                )
+
   # FACE: find the largest detected face as detected face
   maxFaceSize = 0
   maxFaceIdx = 0
@@ -38,7 +33,28 @@ def findmouth(img):
       maxFaceIdx = index
     index = index+1
   maxFace = detectedFace[maxFaceIdx]
-
+                    #y          y          h           x          x          w
+  face = img[maxFace[1]:maxFace[1]+maxFace[3], maxFace[0]:maxFace[0]+maxFace[2]] #create a image from face coordinates
+  cv2.imshow("face", face)
+  detectedMouth = haarMouth.detectMultiScale(
+                face, 
+                scaleFactor=1.2, #increase if wrong faces are detected
+                minNeighbors=5,
+                minSize=(30, 30),
+              )
+  maxMouthSize = 0
+  maxMouthIdx = 0
+  index = 0
+  for (x, y, w, h) in detectedMouth:    #detect the largest mouth
+    if w*h > maxMouthSize:
+      maxMouthSize = w*h
+      maxMouthIdx = index
+    index = index+1
+  maxMouth = detectedMouth[maxMouthIdx]
+                       #y           y           h            x           x           w
+  Mouth = face[maxMouth[1]:maxMouth[1]+maxMouth[3], maxMouth[0]:maxMouth[0]+maxMouth[2]] #create a image from mouth coordinates
+  print(maxMouth)
+  cv2.imshow("mouth", Mouth)
   if len(maxFace): # did not detect face
     return 2
 
@@ -56,8 +72,8 @@ def findmouth(img):
 
   # FILTER MOUTH
   filteredMouth = []
-  if detectedMouth:
-   for mouth in detectedMouth:
+  if maxMouth:
+   for mouth in maxMouth:
     if mouth_in_lower_face(mouth,maxFace):
       filteredMouth.append(mouth) 
   
