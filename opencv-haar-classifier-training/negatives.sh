@@ -1,0 +1,1 @@
+find ./negative_images -iname "*.jpg" > negatives.txt
