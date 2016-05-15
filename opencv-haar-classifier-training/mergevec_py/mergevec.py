@@ -101,7 +101,6 @@ def merge_vec_files(vec_directory, output_vec_file):
         vec_directory = vec_directory[:-1]
     # Get .vec files
     files = glob.glob('{0}/*.vec'.format(vec_directory))
-    print(files)
     # Check to make sure there are .vec files in the directory
     if len(files) <= 0:
         print('Vec files to be mereged could not be found from directory: {0}'.format(vec_directory))
@@ -116,13 +115,9 @@ def merge_vec_files(vec_directory, output_vec_file):
     prev_image_size = 0
     try:
         with open(files[0], 'rb') as vecfile:
+            content = bytes()
             for line in vecfile.readlines():
-                print(str(line))
-            content = ''.join(str(line) for line in vecfile.readlines())
-            #print(content[:12].replace('b\'%', 'b\''))
-            print(content[:12])
-            #print(struct.unpack('<h', b'\x00\x00'))
-            #val = struct.unpack('<iihh', content[:12].replace('b\'%', 'b\''))
+                content = content + line
             val = struct.unpack('<iihh', content[:12])
             prev_image_size = val[1]
     except IOError as e:
@@ -134,8 +129,10 @@ def merge_vec_files(vec_directory, output_vec_file):
     total_num_images = 0
     for f in files:
         try:
-            with open(f, 'rb') as vecfile:	
-                content = ''.join(str(line) for line in vecfile.readlines())
+            with open(f, 'rb') as vecfile:
+                content = bytes()
+                for line in vecfile.readlines():
+                    content = content + line
                 val = struct.unpack('<iihh', content[:12])
                 num_images = val[0]
                 image_size = val[1]
@@ -159,7 +156,9 @@ def merge_vec_files(vec_directory, output_vec_file):
     
             for f in files:
                 with open(f, 'rb') as vecfile:
-                    content = ''.join(str(line) for line in vecfile.readlines())
+                    content = bytes()
+                    for line in vecfile.readlines():
+                        content = content + line
                     data = content[12:]
                     outputfile.write(data)
     except Exception as e:
