@@ -1,0 +1,2 @@
+g++.exe -I/c/MinGW/include/ -I/c/Users/NiculaeAdrian/Documents/Git/DisertatieFlorentina/opencv-haar-classifier-training/mergevec/ -o /c/Users/NiculaeAdrian/Documents/Git/DisertatieFlorentina/opencv-haar-classifier-training/mergevec/mergevec /c/Users/NiculaeAdrian/Documents/Git/DisertatieFlorentina/opencv-haar-classifier-training/mergevec/mergevec.cpp\
+  -lopencv_core -lopencv_calib3d -lopencv_imgproc -lopencv_highgui -lopencv_objdetect

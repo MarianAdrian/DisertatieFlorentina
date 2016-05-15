@@ -1,0 +1,1 @@
+python mergevec.py -v ..\samples -o merged.vec
