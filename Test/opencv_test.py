@@ -2,13 +2,26 @@ import numpy as np
 import cv2
 import sys
 
-# Get user supplied values
-cascPath = sys.argv[1]
-
 # Create the haar cascade
-faceCascade = cv2.CascadeClassifier(cascPath)
+faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+mouthCascade = cv2.CascadeClassifier('haar_mouth_cascade.xml')
 
 cap = cv2.VideoCapture(0)
+
+def _find_mouth(image, face_x, face_y, frame):
+    # Detect mouths in the image
+    mouths = mouthCascade.detectMultiScale(
+        image,
+        scaleFactor=4, #increase if wrong objects are detected
+        minNeighbors=5,
+        minSize=(10, 10),
+        #flags = cv2.CV_HAAR_SCALE_IMAGE                 #such a attribute does not exist
+    )
+    # Draw a rectangle around the mouths
+    for (x, y, w, h) in mouths:
+        cv2.imshow('mouth',image[y:y+h, x:x+w])
+        #cv2.rectangle(frame, (x, face_y+y), (x+w, y+h), (255, 0, 0), 2)
+        cv2.rectangle(frame, (face_x+x, face_y+y), (face_x+x+w, face_y+y+h), (255, 0, 0), 2)
 
 while(True):
     # Capture frame-by-frame
@@ -17,7 +30,7 @@ while(True):
     # Detect faces in the image
     faces = faceCascade.detectMultiScale(
         frame,
-        scaleFactor=1.2, #increase if wrong faces are detected
+        scaleFactor=1.2, #increase if wrong objects are detected
         minNeighbors=5,
         minSize=(30, 30),
         #flags = cv2.CV_HAAR_SCALE_IMAGE                 #such a attribute does not exist
@@ -25,6 +38,7 @@ while(True):
     
     # Draw a rectangle around the faces
     for (x, y, w, h) in faces:
+        _find_mouth(frame[y:y+h, x:x+w], x, y, frame)
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
     # Display the resulting frame
