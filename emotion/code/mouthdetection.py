@@ -9,7 +9,7 @@ def findmouth(img):
 
   # INITIALIZE: loading the classifiers
   haarFace = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-  haarMouth = cv2.CascadeClassifier('haarcascade_mouth.xml')
+  haarMouth = cv2.CascadeClassifier('mouth_cascade.xml')
   # running the classifiers
   #storage = cv2.CreateMemStorage()
   #storage = 0
