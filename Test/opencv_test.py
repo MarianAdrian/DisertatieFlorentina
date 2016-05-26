@@ -3,9 +3,9 @@ import cv2
 import sys
 
 # Create the haar cascade
-faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-mouthCascade = cv2.CascadeClassifier('haarcascade_smile.xml')
-mouthCascade = cv2.CascadeClassifier('haarcascade_mouth.xml')          #this one detects mouth + eyes at random
+faceCascade = cv2.CascadeClassifier('Test\haarcascade_frontalface_default.xml')
+mouthCascade = cv2.CascadeClassifier('Test\haarcascade_smile.xml')
+mouthCascade = cv2.CascadeClassifier('Test\haarcascade_mouth.xml')          #this one detects mouth + eyes at random
 #mouthCascade = cv2.CascadeClassifier('haar_mouth_cascade.xml')        #my mouth haar seems to detect nose instead
 
 cap = cv2.VideoCapture(0)
