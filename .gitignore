@@ -1,1 +1,4 @@
 #ignore files
+
+#python compiled files
+*.pyc

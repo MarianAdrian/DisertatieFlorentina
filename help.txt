@@ -1,0 +1,3 @@
+run batch with multiple arguments:
+
+EX:  python3.4.4.bat "-m pip install --upgrade pip wheel setuptools"
