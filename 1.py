@@ -1,5 +1,5 @@
 from kivy.app import App
-kivy.require("1.8.0")
+#kivy.require("1.8.0")                 why????
 
 from kivy.uix.label import Label
 
