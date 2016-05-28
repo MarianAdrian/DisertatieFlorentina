@@ -5,7 +5,7 @@ import cv2
 
 #Projects\Android\KivyAndroidApp\haarcascade_frontalface_default.xml
 class _MainWindow(Widget):
-self.add_widget
+#self.add_widget
     pass
 
 
