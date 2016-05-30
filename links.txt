@@ -6,3 +6,4 @@ https://www.dropbox.com/s/s06gnv9ubwrcu56/python-3.5.1.exe?dl=0
 exemple:
 https://pythonprogramming.net/haar-cascade-face-eye-detection-python-opencv-tutorial/
 http://coding-robin.de/2013/07/22/train-your-own-opencv-haar-classifier.html
+http://flothesof.github.io/smile-recognition.html
