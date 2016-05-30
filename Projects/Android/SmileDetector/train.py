@@ -1,5 +1,6 @@
-from ipywidgets import widgets
+from notebook import *
 from IPython.display import display, clear_output
+from IPython import get_ipython
 from pylab import *
 from sklearn import datasets
 
@@ -32,8 +33,8 @@ class Trainer:
 
 trainer = Trainer()
 
-button_smile = widgets.Button(description='smile')
-button_no_smile = widgets.ButtonWidget(description='sad face')
+button_smile = Button(description='smile')
+button_no_smile = ButtonWidget(description='sad face')
 
 def display_face(face):
     clear_output()
@@ -53,7 +54,7 @@ def update_no_smile(b):
 button_no_smile.on_click(update_no_smile)
 button_smile.on_click(update_smile)
 
-display(widgets.HBox((button_smile, button_no_smile)))
-#display(button_smile)
-#display(button_no_smile)
+#display(widgets.HBox((button_smile, button_no_smile)))
+display(button_smile)
+display(button_no_smile)
 display_face(trainer.imgs[trainer.index])
