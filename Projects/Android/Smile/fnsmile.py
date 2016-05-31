@@ -46,7 +46,8 @@ class HaarObjectTracker():
             ownDetections = self.detector.detectMultiScale(pframe, scaleFactor=1.1,
                                                      minNeighbors=5,
                                                      minSize=(30, 30),
-                                                     flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
+                                                     #flags=cv2.cv.CV_HAAR_SCALE_IMAGE   no such attribute
+                                                     )
             
             
             
