@@ -15,7 +15,7 @@ def _find_mouth(image, face_x, face_y, frame):
     # Detect mouths in the image
     mouths = mouthCascade.detectMultiScale(
         image,
-        scaleFactor=3.5, #increase if wrong objects are detected
+        scaleFactor=3.65, #increase if wrong objects are detected
         minNeighbors=5,
         minSize=(25, 15),
         #flags = cv2.CV_HAAR_SCALE_IMAGE                 #such a attribute does not exist
