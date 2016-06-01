@@ -4,8 +4,9 @@ import sys
 
 # Create the haar cascade
 faceCascade = cv2.CascadeClassifier('Test\haarcascade_frontalface_default.xml')
-mouthCascade = cv2.CascadeClassifier('Test\haarcascade_smile.xml')
-mouthCascade = cv2.CascadeClassifier('Test\haarcascade_mouth.xml')          #this one detects mouth + eyes at random
+#mouthCascade = cv2.CascadeClassifier('Test\haarcascade_smile.xml')
+mouthCascade = cv2.CascadeClassifier('Test\haarcascade_smile2.xml')
+#mouthCascade = cv2.CascadeClassifier('Test\haarcascade_mouth.xml')          #this one detects mouth + eyes at random
 #mouthCascade = cv2.CascadeClassifier('haar_mouth_cascade.xml')        #my mouth haar seems to detect nose instead
 
 cap = cv2.VideoCapture(0)
@@ -14,9 +15,9 @@ def _find_mouth(image, face_x, face_y, frame):
     # Detect mouths in the image
     mouths = mouthCascade.detectMultiScale(
         image,
-        scaleFactor=4, #increase if wrong objects are detected
+        scaleFactor=3.5, #increase if wrong objects are detected
         minNeighbors=5,
-        minSize=(10, 10),
+        minSize=(25, 15),
         #flags = cv2.CV_HAAR_SCALE_IMAGE                 #such a attribute does not exist
     )
     # Draw a rectangle around the mouths
