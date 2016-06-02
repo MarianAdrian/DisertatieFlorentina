@@ -1,48 +1,27 @@
 from kivy.app import App
 from kivy.uix.widget import Widget
+from kivy.uix.image import Image
 
-import cv2
+from opencv import*
 
-#Projects\Android\KivyAndroidApp\haarcascade_frontalface_default.xml
 class _MainWindow(Widget):
-#self.add_widget
     pass
-
 
 class _Main(App):
     def build(self):
+        #self.camera_stream = OpencvVideoCapture().GetFrame()
         return _MainWindow()
-
-def _OpencvTest():
-    faceCascade = cv2.CascadeClassifier('Projects\Android\KivyAndroidApp\haarcascade_frontalface_default.xml')
-    cap = cv2.VideoCapture(0)
-    while(True):
-        # Capture frame-by-frame
-        ret, frame = cap.read()
-    
-        # Detect faces in the image
-        faces = faceCascade.detectMultiScale(
-            frame,
-            scaleFactor=1.2, #increase if wrong objects are detected
-            minNeighbors=5,
-            minSize=(30, 30),
-            #flags = cv2.CV_HAAR_SCALE_IMAGE                 #such a attribute does not exist
-        )
+    def Run(self):
+        return super(_Main, self).run()
         
-        # Draw a rectangle around the faces
-        for (x, y, w, h) in faces:
-            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-    
-        # Display the resulting frame
-        cv2.imshow('frame',frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            cap.release()
-            cv2.destroyAllWindows()
-            break
 
 def _StartApp():
-    if __name__ == '__main__':
-        _Main().run()
-        _OpencvTest()
+    _Main().Run()
+    OpencvStream = OpencvVideoCapture()
+    while(True):
+        _Main().camera_stream = OpencvStream.GetFrame()
+        if OpencvStream.StopVideoCapture() == True:
+            break
 
-_StartApp()      #start application
+if __name__ == "__main__":
+    _StartApp()      #start application
