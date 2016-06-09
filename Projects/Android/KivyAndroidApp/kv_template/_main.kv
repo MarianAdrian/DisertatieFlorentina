@@ -1,0 +1,30 @@
+#:kivy 1.0
+#:import kivy kivy
+
+<_MainWindow>:
+    canvas:
+        Color:
+            rgb: 120, 120, 120
+        Rectangle:
+            source: ''
+            size: self.size
+
+    BoxLayout:
+        padding: '10dp'
+        spacing: '10dp'
+        size_hint: 1, None
+        pos_hint: {'top': 1}
+        height: '44dp'
+        Label:
+            height: '24dp'
+            text_size: self.width, None
+            color: (1, 1, 1, .8)
+            text: 'Kivy %s - _Main' % kivy.__version__
+            valign: 'middle'
+        Image:
+            size_hint: None, None
+            size: '24dp', '24dp'
+            source: ''
+            mipmap: True
+        Button:
+            text: ':D'
