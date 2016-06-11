@@ -1,0 +1,17 @@
+1 toate operatiunile se vor executa din directorul radacina: opencv-haar-classifier-training
+2 aduna imagini care contin obiectul pe care vrei sa il detectezi(cel putin cateva zeci)
+  imaginiele respective trebuie sa aiba acelasi raport(latime/inaltime)
+  imaginile se plaseaza dupa accea in directorul "positive_images"
+  imaginile trebuie sa aiba formatul *.jpg
+3 ruleaza scriptul: positives.sh pt a genera fisierul: positives.txt
+4 aduna imagini care nu contin obiectul pe care vrei sa il detectezi(cel putin de 2 ori mai multe decat cele pozitive)
+  imaginiele respective trebuie sa aiba acelasi raport(latime/inaltime)
+  imaginile se plaseaza dupa accea in directorul "negative_images"
+  imaginile trebuie sa aiba formatul *.jpg
+5 ruleaza scriptul: negatives.sh pt a genera fisierul: negatives.txt
+6 ruleaza scriptul: make_samples.pl care va genera in directorul "samples" vector files(*.vec) din 
+  imaginile pozitive si negative
+7 ruleaza scriptul mergevec_py\mergevec.bat pentru a uni toate fisierele *vec intrun singur fisier *vec
+  copiaza rezultatul in directorul radacina
+8 ruleaza scriptul: generate_cascade.sh pentu a genera fisierul xml care va fii folosit pentru a detecta
+  obiectul din pozele pozitive.
