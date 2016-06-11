@@ -9,7 +9,7 @@
   imaginile se plaseaza dupa accea in directorul "negative_images"
   imaginile trebuie sa aiba formatul *.jpg
 5 ruleaza scriptul: negatives.sh pt a genera fisierul: negatives.txt
-6 ruleaza scriptul: make_samples.pl care va genera in directorul "samples" vector files(*.vec) din 
+6 ruleaza scriptul: make_samples.sh care va genera in directorul "samples" vector files(*.vec) din 
   imaginile pozitive si negative
 7 ruleaza scriptul mergevec_py\mergevec.bat pentru a uni toate fisierele *vec intrun singur fisier *vec
   copiaza rezultatul in directorul radacina
