@@ -13,6 +13,7 @@ cap = cv2.VideoCapture(0)
 
 def _find_mouth(image, face_x, face_y, frame):
     # Detect mouths in the image
+    font = cv2.FONT_HERSHEY_SIMPLEX
     mouths = mouthCascade.detectMultiScale(
         image,
         scaleFactor=3.35, #increase if wrong objects are detected
@@ -20,11 +21,15 @@ def _find_mouth(image, face_x, face_y, frame):
         minSize=(25, 15),
         #flags = cv2.CV_HAAR_SCALE_IMAGE                 #such a attribute does not exist
     )
-    # Draw a rectangle around the mouths
+    if len(mouths) == 0:
+        cv2.putText(frame,'Not smiling',(10, 40), font, 1,(0,0,255),2,cv2.LINE_AA)
+        # Draw a rectangle around the mouths
     for (x, y, w, h) in mouths:
-        cv2.imshow('mouth',image[y:y+h, x:x+w])
+        #cv2.imshow('mouth',image[y:y+h, x:x+w])
         #cv2.rectangle(frame, (x, face_y+y), (x+w, y+h), (255, 0, 0), 2)
         cv2.rectangle(frame, (face_x+x, face_y+y), (face_x+x+w, face_y+y+h), (255, 0, 0), 2)
+        cv2.putText(frame,'Smiling',(10, 40), font, 1,(0,255,0),2,cv2.LINE_AA)
+
 
 while(True):
     # Capture frame-by-frame
