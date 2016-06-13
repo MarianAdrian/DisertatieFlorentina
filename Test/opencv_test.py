@@ -11,7 +11,15 @@ mouthCascade = cv2.CascadeClassifier('Test\haarcascade_smile2.xml')
 
 cap = cv2.VideoCapture(0)
 
+smiles_detected = 0
+frames_checked = 0
+stare = 'None'
+
 def _find_mouth(image, face_x, face_y, frame):
+    global frames_checked
+    global smiles_detected
+    global stare
+    frames_checked = frames_checked + 1
     # Detect mouths in the image
     font = cv2.FONT_HERSHEY_SIMPLEX
     mouths = mouthCascade.detectMultiScale(
@@ -22,14 +30,25 @@ def _find_mouth(image, face_x, face_y, frame):
         #flags = cv2.CV_HAAR_SCALE_IMAGE                 #such a attribute does not exist
     )
     if len(mouths) == 0:
-        cv2.putText(frame,'Not smiling',(10, 40), font, 1,(0,0,255),2,cv2.LINE_AA)
+        if frames_checked >= 20:
+            stare = 'sad'
+            frames_checked = 0
+    else:
         # Draw a rectangle around the mouths
-    for (x, y, w, h) in mouths:
-        #cv2.imshow('mouth',image[y:y+h, x:x+w])
-        #cv2.rectangle(frame, (x, face_y+y), (x+w, y+h), (255, 0, 0), 2)
-        cv2.rectangle(frame, (face_x+x, face_y+y), (face_x+x+w, face_y+y+h), (255, 0, 0), 2)
-        cv2.putText(frame,'Smiling',(10, 40), font, 1,(0,255,0),2,cv2.LINE_AA)
-
+        for (x, y, w, h) in mouths:
+            smiles_detected = smiles_detected + 1
+            #cv2.imshow('mouth',image[y:y+h, x:x+w])
+            #cv2.rectangle(frame, (x, face_y+y), (x+w, y+h), (255, 0, 0), 2)
+            if (smiles_detected/frames_checked >= 0.3) and (frames_checked >= 20):
+                stare = 'happy'
+                smiles_detected = 0
+                frames_checked = 0
+            if stare == 'happy':
+                cv2.rectangle(frame, (face_x+x, face_y+y), (face_x+x+w, face_y+y+h), (255, 0, 0), 2)
+                cv2.putText(frame,'Fericire',(10, 40), font, 1,(0,255,0),2,cv2.LINE_AA)
+    
+    if stare == 'sad':
+        cv2.putText(frame,'Suparare',(10, 40), font, 1,(0,0,255),2,cv2.LINE_AA)
 
 while(True):
     # Capture frame-by-frame
