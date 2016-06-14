@@ -11,44 +11,49 @@ mouthCascade = cv2.CascadeClassifier('Test\haarcascade_smile2.xml')
 
 cap = cv2.VideoCapture(0)
 
-smiles_detected = 0
 frames_checked = 0
 stare = 'None'
+max_object = 0
+
+def _getMax_Object(objects):
+    return_value = 0
+    global max_object
+    for object in objects:
+                 #w       #h
+        if (object[2]*object[3])>=max_object:
+            max_object = object[2]*object[3]
+            return_value = object
+    max_object = 0
+    return return_value
 
 def _find_mouth(image, face_x, face_y, frame):
     global frames_checked
-    global smiles_detected
     global stare
     frames_checked = frames_checked + 1
     # Detect mouths in the image
     font = cv2.FONT_HERSHEY_SIMPLEX
     mouths = mouthCascade.detectMultiScale(
         image,
-        scaleFactor=3.35, #increase if wrong objects are detected
+        scaleFactor=1.6, #increase if wrong objects are detected
         minNeighbors=5,
         minSize=(25, 15),
         #flags = cv2.CV_HAAR_SCALE_IMAGE                 #such a attribute does not exist
     )
     if len(mouths) == 0:
-        if frames_checked >= 20:
+        if frames_checked >= 10:
             stare = 'sad'
             frames_checked = 0
     else:
-        # Draw a rectangle around the mouths
-        for (x, y, w, h) in mouths:
-            smiles_detected = smiles_detected + 1
-            #cv2.imshow('mouth',image[y:y+h, x:x+w])
-            #cv2.rectangle(frame, (x, face_y+y), (x+w, y+h), (255, 0, 0), 2)
-            if (smiles_detected/frames_checked >= 0.3) and (frames_checked >= 20):
-                stare = 'happy'
-                smiles_detected = 0
-                frames_checked = 0
-            if stare == 'happy':
-                cv2.rectangle(frame, (face_x+x, face_y+y), (face_x+x+w, face_y+y+h), (255, 0, 0), 2)
-                cv2.putText(frame,'Fericire',(10, 40), font, 1,(0,255,0),2,cv2.LINE_AA)
-    
-    if stare == 'sad':
-        cv2.putText(frame,'Suparare',(10, 40), font, 1,(0,0,255),2,cv2.LINE_AA)
+        smile = _getMax_Object(mouths)
+        stare = 'happy'
+        frames_checked = 0
+        # Draw a rectangle around the mouth
+                                          #x               #y                 #x       #w               #y       #h
+        cv2.rectangle(frame, (face_x+smile[0], face_y+smile[1]), (face_x+smile[0]+smile[2], face_y+smile[1]+smile[3]), (255, 0, 0), 2)
+    if stare == 'happy':     
+        cv2.putText(frame,'Bucurie',(10, 40), font, 1,(0,255,0),2,cv2.LINE_AA)
+    elif stare == 'sad':
+        cv2.putText(frame,'Tristete',(10, 40), font, 1,(0,0,255),2,cv2.LINE_AA)
 
 while(True):
     # Capture frame-by-frame
@@ -62,11 +67,14 @@ while(True):
         minSize=(30, 30),
         #flags = cv2.CV_HAAR_SCALE_IMAGE                 #such a attribute does not exist
     )
-    
-    # Draw a rectangle around the faces
-    for (x, y, w, h) in faces:
-        _find_mouth(frame[y:y+h, x:x+w], x, y, frame)
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+    if len(faces)>0:
+        face = _getMax_Object(faces)
+                            #y      #y      #h       #x      #x      #w        #x       #y
+        _find_mouth(frame[face[1]:face[1]+face[3], face[0]:face[0]+face[2]], face[0], face[1], frame)
+        # Draw a rectangle around the face
+                                #x      #y          #x        #w        #y       #h
+        cv2.rectangle(frame, (face[0], face[1]), (face[0] + face[2], face[1] + face[3]), (0, 255, 0), 2)
 
     # Display the resulting frame
     cv2.imshow('frame',frame)
